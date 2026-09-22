@@ -3,17 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Testaurant</title>
-  <!-- REPLACE-ME: one sentence about Testaurant for search results. -->
-  <meta name="description" content="Testaurant — Pho, banh mi and rice plates in American Fork">
+  <title>Testaurant — Patchlamp's demo restaurant</title>
+  <meta name="description" content="Testaurant is the demo restaurant for Patchlamp: a real website anyone can change by text. Not a real business.">
+  <meta name="robots" content="noindex">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <p class="demo-bar">
+    <strong>This is a demo.</strong> Testaurant is not a real restaurant — it is
+    <a href="https://patchlamp.com">Patchlamp's</a> demo site. Text the demo number and
+    whatever you ask for changes this page, usually in under a minute. It resets every night.
+  </p>
 
   <header class="site-header">
     <a class="wordmark" href="index.html">Testaurant</a>
     <nav class="site-nav" aria-label="Site">
       <a href="index.html" aria-current="page">Home</a>
+      <a href="#menu">Menu</a>
       <a href="photos.html">Photos</a>
     </nav>
   </header>
@@ -21,19 +28,15 @@
   <main>
     <section class="hero">
       <h1 class="hero-title">Testaurant</h1>
-      <!-- REPLACE-ME: placeholder tagline — swap for the client's own line. -->
       <p class="hero-tagline">Pho, banh mi and rice plates in American Fork</p>
     </section>
 
     <section class="section" id="about">
       <div class="section-inner reveal">
         <div class="about-grid">
-          <!-- Main photo. To set it, put a JPG in images/ and change the
-               src and alt here (see CLAUDE.md, "How to add a photo"). Until
-               there is one, this figure shows a plain placeholder. -->
           <figure class="about-photo">
             <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img"
-                 aria-label="Placeholder for a photo of Testaurant">
+                 aria-label="A bowl, drawn simply">
               <rect width="400" height="400" fill="#e6e1d8"/>
               <circle cx="200" cy="160" r="60" fill="#faf8f4"/>
               <path d="M80 340 Q200 220 320 340 Z" fill="#faf8f4"/>
@@ -42,15 +45,13 @@
           <div class="about-text">
             <p class="kicker">About</p>
             <h2>Who we are</h2>
-            <!-- REPLACE-ME: placeholder text. Get the real story from the
-                 client: what they do, where, since when. Two short paragraphs
-                 is plenty. Keep the voice plain; no hype. -->
-            <p class="lede">This paragraph is placeholder text for Testaurant. It
-            should say, in a sentence or two, what they do and who it's for.</p>
-            <p class="muted">A second short paragraph can go here: how it
-            started, what makes it theirs. Delete it if there's nothing to say.</p>
+            <p class="lede">A small family kitchen doing one thing properly: broth that
+            starts the night before, bread baked the same morning, and a short menu that
+            changes when the market does.</p>
+            <p class="muted">Counter service, eight tables, takeout all day. We have been
+            in American Fork since 2019.</p>
             <div class="button-row">
-              <a class="button" href="photos.html">See photos</a>
+              <a class="button" href="#menu">See the menu</a>
               <a class="button" href="#details">Find us</a>
             </div>
           </div>
@@ -58,34 +59,48 @@
       </div>
     </section>
 
+    <section class="section" id="menu">
+      <div class="section-inner reveal">
+        <p class="kicker">Menu</p>
+        <h2>What we make</h2>
+        <ul class="menu-list">
+          <li><span class="menu-item">Beef pho</span> <span class="menu-price">$13</span></li>
+          <li><span class="menu-item">Chicken pho</span> <span class="menu-price">$12</span></li>
+          <li><span class="menu-item">Grilled pork banh mi</span> <span class="menu-price">$9</span></li>
+          <li><span class="menu-item">Tofu banh mi</span> <span class="menu-price">$8</span></li>
+          <li><span class="menu-item">Lemongrass chicken rice plate</span> <span class="menu-price">$14</span></li>
+          <li><span class="menu-item">Spring rolls (2)</span> <span class="menu-price">$6</span></li>
+          <li><span class="menu-item">Iced Vietnamese coffee</span> <span class="menu-price">$5</span></li>
+        </ul>
+        <p class="muted">Ask about the daily special — it changes with whatever came in.</p>
+      </div>
+    </section>
+
     <section class="section" id="details">
       <div class="section-inner reveal">
         <p class="kicker">Details</p>
         <h2>Find us</h2>
-        <!-- REPLACE-ME: every line below is a placeholder. Ask the client for
-             the real address, hours and contact details; delete any card
-             they don't want shown. -->
         <div class="details-grid">
           <div>
             <h3>Where</h3>
             <address>
-              123 Example Street<br>
-              Somewhere, ST 00000
+              American Fork, Utah<br>
+              <span class="muted">(a demo — there is no address to visit)</span>
             </address>
           </div>
           <div>
             <h3>Hours</h3>
             <ul>
-              <li>Mon–Fri: 9am–5pm</li>
-              <li>Sat: 10am–2pm</li>
+              <li>Mon–Thu: 11am–9pm</li>
+              <li>Fri–Sat: 11am–10pm</li>
               <li>Sun: closed</li>
             </ul>
           </div>
           <div>
-            <h3>Contact</h3>
+            <h3>Changes</h3>
             <ul>
-              <li><a href="mailto:hello@example.com">hello@example.com</a></li>
-              <li><a href="tel:+10000000000">(000) 000-0000</a></li>
+              <li>Everything on this page was put here by text.</li>
+              <li>Ask for the demo number and try it.</li>
             </ul>
           </div>
         </div>
@@ -94,12 +109,11 @@
   </main>
 
   <footer class="site-footer">
-    <!-- REPLACE-ME: the client's real social links; delete the ones they don't use. -->
     <ul class="footer-links">
-      <li><a href="https://instagram.com/">Instagram</a></li>
-      <li><a href="https://facebook.com/">Facebook</a></li>
+      <li><a href="https://patchlamp.com">Patchlamp</a></li>
+      <li><a href="https://patchlamp.com/demo">What this is</a></li>
     </ul>
-    <p class="copyright">&copy; 2026 Testaurant</p>
+    <p class="copyright">&copy; 2026 Testaurant — a demo restaurant, not a real business.</p>
   </footer>
 
   <script src="js/main.js"></script>

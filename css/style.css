@@ -231,3 +231,46 @@ img, svg { max-width: 100%; display: block; }
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .js-motion .reveal.is-visible { opacity: 1; transform: none; }
+
+/* --------------------------------------------------------------------------
+   Demo restaurant (Patchlamp B4)
+   The bar at the top says what this site is, so nobody mistakes a demo for a
+   real business. The menu list is what a texted change usually lands in.
+   -------------------------------------------------------------------------- */
+
+.demo-bar {
+  margin: 0;
+  padding: 0.75rem var(--page-pad);
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.demo-bar a { color: var(--bg); text-decoration: underline; }
+.demo-bar a:hover { color: #fff; }
+
+.menu-list {
+  list-style: none;
+  margin: var(--space-lg) 0 var(--space) 0;
+  padding: 0;
+  max-width: var(--measure);
+}
+
+.menu-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--bg-line);
+}
+
+.menu-item { flex: 1 1 auto; }
+
+.menu-price {
+  font-family: var(--font-display);
+  color: var(--accent);
+  white-space: nowrap;
+}
