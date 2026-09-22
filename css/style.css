@@ -274,3 +274,16 @@ img, svg { max-width: 100%; display: block; }
   color: var(--accent);
   white-space: nowrap;
 }
+
+/* Phone tap targets: the nav, the demo bar and the footer are all short
+   links, and a thumb needs more than the text's own height (shot check
+   flags anything under 24px). Padding only — nothing moves on desktop. */
+@media (max-width: 40rem) {
+  .site-nav a,
+  .footer-links a,
+  .demo-bar a {
+    display: inline-block;
+    padding: 0.45rem 0.35rem;
+  }
+  .demo-bar { line-height: 1.7; }
+}
