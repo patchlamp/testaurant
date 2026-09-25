@@ -13,8 +13,10 @@ how to change it, and how to check a change is live.
 - Plain HTML/CSS/JS static files. **No frameworks, no build step, no npm, no
   external JS libraries.** If a change seems to need one, find the plain
   way or say it's out of scope.
-- Two pages: `index.html` (home: hero, about, details) and `photos.html`
-  (gallery). `404.html` is what the host shows for a missing page.
+- One page: `index.html` (hero, about, the menu, hours and where). `404.html`
+  is what the host shows for a missing page. This is the **restaurant**
+  template, which is the store layer: the menu and the hours are rows in
+  the site's own database (below); ordering is Stripe Checkout for pickup.
 - One stylesheet, `css/style.css`. Colors and fonts are the tokens in `:root`
   at the top; change the look there, not scattered through the file.
 - One script, `js/main.js` (fade-in on scroll). Motion is transform/opacity
@@ -27,11 +29,12 @@ how to change it, and how to check a change is live.
   sees a stale page); `_redirects` is for a page that moved. Leave both
   alone otherwise. With a custom domain every page carries a canonical
   link to the bare domain (www serves the same site).
-- **No trackers, no analytics, no cookie banners, no checkout.** The only
+- **No trackers, no analytics, no cookie banners, and no checkout but the
+  catalog's own** (Stripe Checkout on the owner's account, below). The only
   forms allowed are the ones that post to patchlamp.com (`newsletter form`
   prints the sign-up box; contact/booking forms follow the workspace
-  `PLAYBOOK.md`) — nothing on this site ever stores visitor information
-  itself.
+  `PLAYBOOK.md`) or, once the site has a database, to its own `/api/…`
+  (below) — nothing else on this site stores visitor information.
 - Placeholder content is marked with `REPLACE-ME` comments. Placeholders
   must look like placeholders; never invent facts, prices, hours, or quotes.
 
@@ -92,6 +95,44 @@ publish again. Never force-push, never rewrite history. This is standing
 permission from Taylor: don't ask "should I push?" for anything the client
 asked for. Do stop if a change would break a rule in this file or delete
 something the request didn't clearly ask to delete.
+
+## The server side (only once the site has a database)
+
+A site gets a database with `site data testaurant` (PLAYBOOK § Data). Then
+this repo also holds:
+
+- `wrangler.toml` — the binding to this site's own D1 database (`DB`) and
+  a few plain settings. Written by `site`; don't edit the binding (`client
+  doctor` fails if it stops matching the registry).
+- `migrations/NNNN_*.sql` — the tables, applied in order by `db migrate`.
+  Never edit one that's applied; add the next number.
+- `functions/` — plain JavaScript that Cloudflare runs for `/admin/*` and
+  `/api/*` only; every other page stays a static file. `_lib/core.js` is
+  shared (the owner's sign-in, page layout); `admin/` is the owner's
+  console; `api/<collection>.js` takes a form's posts; `_admin/<name>.js`
+  says how `/admin/<name>` shows a list (title, columns, statuses) and
+  `_admin/collections.js` lists them. Add a collection with `db add`,
+  change a list's title or columns in its `_admin` file, nothing else by
+  hand without a reason. No packages, no build step, no secrets in these
+  files (the sign-in secret and owner address are Pages secrets).
+
+`site publish` deploys all of it together, so what's live is what's in
+git. A new migration goes live with `db migrate` *before* the publish that
+needs it. `/admin` pages are never indexed and never cached.
+
+### This site's lists (what's on /admin, and the texts that change them)
+
+| list | table | on the site |
+|---|---|---|
+| Menu | `products` (a section is `category`) | the menu, `#shop` (from `GET /api/catalog`) |
+| Hours | `hours` | the hours box (`data-hours`) |
+| Orders | `orders` | written by `POST /api/checkout`, marked paid by Stripe's webhook |
+
+**The shop reads the database live**: a price, a new dish, sold out, or an
+hour is one `db exec` and no publish (the catalog README in claude-tools
+`templates/collections/catalog/` has the texts). Prices are in cents. Taking
+payment needs the owner's Stripe key, set by Taylor (`site checkout`); until
+then the button says "Checkout opens once Stripe is connected".
 
 ## Hosting (for Taylor)
 

@@ -5,14 +5,14 @@
    ========================================================================== */
 
 :root {
-  /* Color — warm off-white ground, dark ink, one accent */
-  --bg: #faf8f4;
+  /* Color — warm off-white ground, dark ink, one chili accent */
+  --bg: #faf7f2;
   --bg-raised: #ffffff;
-  --bg-line: #e6e1d8;
-  --ink: #1d1b17;
-  --ink-dim: #6b665c;
-  --accent: #b4532a;       /* links, highlights, buttons */
-  --accent-dim: #8f3f1e;   /* hover */
+  --bg-line: #e8e0d4;
+  --ink: #1e1a16;
+  --ink-dim: #6b645a;
+  --accent: #a8322d;       /* links, highlights, buttons */
+  --accent-dim: #842521;   /* hover */
 
   /* Type — system fonts, so nothing loads from a third party */
   --font-display: Georgia, "Times New Roman", serif;
@@ -233,54 +233,42 @@ img, svg { max-width: 100%; display: block; }
 .js-motion .reveal.is-visible { opacity: 1; transform: none; }
 
 /* --------------------------------------------------------------------------
-   Demo restaurant (Patchlamp B4)
-   The bar at the top says what this site is, so nobody mistakes a demo for a
-   real business. The menu list is what a texted change usually lands in.
+   Components every kind of site shares (templates/sites/*: only :root
+   differs between them). Forms post to patchlamp.com or, with a database,
+   to the site's own /api/*; cards are a list of short blocks (services,
+   work, events, products).
    -------------------------------------------------------------------------- */
 
-.demo-bar {
-  margin: 0;
-  padding: 0.75rem var(--page-pad);
-  background: var(--ink);
-  color: var(--bg);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  text-align: center;
-}
+.site-form { display: grid; gap: .9rem; max-width: 30rem; }
+.site-form label { display: grid; gap: .3rem; }
+.site-form input, .site-form textarea, .site-form select { font: inherit; padding: .6rem .75rem; border: 1px solid var(--bg-line); border-radius: 3px; background: var(--bg-raised); color: var(--ink); }
+.site-form .button { justify-self: start; background: transparent; cursor: pointer; }
+.form-thanks, .form-sorry { font-weight: 600; }
 
+.card-list { list-style: none; display: grid; gap: var(--space); margin-top: var(--space); }
+@media (min-width: 40rem) { .card-list { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 60rem) { .card-list.three { grid-template-columns: repeat(3, 1fr); } }
+.card-list li { padding: var(--space); border: 1px solid var(--bg-line); border-radius: 3px; background: var(--bg-raised); }
+.card-list h3 { margin-bottom: .35rem; }
+.card-list svg { display: block; width: 100%; height: auto; border-radius: 3px; margin-bottom: .75rem; }
+.card-meta { color: var(--ink-dim); font-size: .95rem; }
+.price { font-family: var(--font-display); color: var(--accent); white-space: nowrap; }
+
+.hero .button-row { justify-content: center; }
+.photo-grid svg { display: block; width: 100%; height: auto; border-radius: 3px; }
+
+/* A demo site says so on every page (Patchlamp's demos; a client's own site
+   never has this bar). */
+.demo-bar { margin: 0; max-width: none; padding: .75rem var(--page-pad); background: var(--ink); color: var(--bg); font-size: .9rem; line-height: 1.5; text-align: center; }
 .demo-bar a { color: var(--bg); text-decoration: underline; }
-.demo-bar a:hover { color: #fff; }
 
-.menu-list {
-  list-style: none;
-  margin: var(--space-lg) 0 var(--space) 0;
-  padding: 0;
-  max-width: var(--measure);
-}
-
-.menu-list li {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--bg-line);
-}
-
-.menu-item { flex: 1 1 auto; }
-
-.menu-price {
-  font-family: var(--font-display);
-  color: var(--accent);
-  white-space: nowrap;
-}
-
-/* Phone tap targets: the nav, the demo bar and the footer are all short
-   links, and a thumb needs more than the text's own height (shot check
-   flags anything under 24px). Padding only — nothing moves on desktop. */
+/* Phone tap targets: the nav, the demo bar and the footer are short links,
+   and a thumb needs more than the text's own height (shot check flags
+   anything under 24px). Padding only — nothing moves on desktop. */
 @media (max-width: 40rem) {
   .site-nav a,
-  .footer-links a,
+  .site-footer a,
+  .details-grid a,
   .demo-bar a {
     display: inline-block;
     padding: 0.45rem 0.35rem;

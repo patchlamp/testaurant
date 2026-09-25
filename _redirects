@@ -2,3 +2,5 @@
 # from  to  status — paths only (an old page that moved, a short link). The
 # host can't redirect one domain to another from here: www serves the same
 # site, and `site domain` puts a canonical link on every page instead.
+/photos       /  301
+/photos.html  /  301
