@@ -1,0 +1,20 @@
+# Written by `site data` (claude-tools). The database binding must match the
+# site registry (`client doctor` and `db doctor` check it): change it only
+# through `site`. `site publish` deploys this file with functions/, so what is
+# bound is what's in git. Local preview with a local database:
+# `wrangler pages dev` in this folder (secrets for it go in .dev.vars, which is
+# never committed); `db --local …` works on the same copy.
+name = "testaurant"
+pages_build_output_dir = "."
+compatibility_date = "2026-09-01"
+
+[vars]
+PATCHLAMP_SLUG = "testaurant"
+PATCHLAMP_URL = "https://patchlamp.com"
+SITE_NAME = "Testaurant"
+TIMEZONE = "America/Denver"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "testaurant"
+database_id = "1d61445e-9105-4c13-ae6b-ba531e134fd2"
