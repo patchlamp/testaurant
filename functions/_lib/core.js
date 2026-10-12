@@ -238,6 +238,20 @@ const STYLE = `
   }
 `;
 
+// B178: _headers never reaches a Function's answer (Cloudflare Pages applies it to static files
+// only), so the owner's pages carry their own. No script of ours runs on them (Cloudflare's
+// analytics beacon, which the edge injects, is allowed by name); the style is the inline
+// STYLE above; nothing may frame them (x-frame-options DENY and frame-ancestors 'none').
+const ADMIN_SECURITY = {
+  "content-security-policy": "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; " +
+    "connect-src 'self' https://cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; " +
+    "form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'",
+  "x-content-type-options": "nosniff",
+  "strict-transport-security": "max-age=31536000",
+  "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()",
+  "cross-origin-opener-policy": "same-origin",
+};
+
 export function page(env, title, body, { status = 200, headers = {}, session = null } = {}) {
   const site = env.SITE_NAME || "Website";
   const bar = session
@@ -266,7 +280,7 @@ ${body}
     status,
     headers: {
       "content-type": "text/html; charset=utf-8", "cache-control": "no-store", "x-robots-tag": "noindex",
-      "referrer-policy": "same-origin", "x-frame-options": "DENY", ...headers,
+      "referrer-policy": "same-origin", "x-frame-options": "DENY", ...ADMIN_SECURITY, ...headers,
     },
   });
 }
