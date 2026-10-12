@@ -10,10 +10,21 @@
 # filenames, so no safe way to cache them longer. Images are renamed when they
 # change, so they may live a week (the `!` line drops the /* value first —
 # Pages merges matching blocks instead of replacing them).
+# Security headers (B178): written by `site headers` from the toolbelt (lib/site_headers.py);
+# change them there, not here (the site's own /* lines above them stay). No X-Frame-Options:
+# the CSP's frame-ancestors lets the owner's /account pane show the site and nothing else.
+# `site publish` adds a hash for each inline <script> on the pages, and the origin of any
+# embedded <iframe> or <img>, to the policy as it deploys, so a page edit never needs one here.
+# One /* rule only: Pages keeps the last of two identical rules, not both.
 /*
   Cache-Control: no-cache
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()
+  Strict-Transport-Security: max-age=31536000
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://patchlamp.com https://static.cloudflareinsights.com; connect-src 'self' https://patchlamp.com https://cloudflareinsights.com; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self'; form-action 'self' https://patchlamp.com; frame-ancestors 'self' https://patchlamp.com; base-uri 'self'; object-src 'none'
+# end of the security headers
 /images/*
   ! Cache-Control
   Cache-Control: public, max-age=604800
