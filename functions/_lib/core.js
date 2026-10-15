@@ -9,6 +9,8 @@
 //   env.SESSION_SECRET  signs the owner's sign-in cookie (a Pages secret)
 //   env.ADMIN_EMAIL     the one address that may sign in (a Pages secret)
 //   env.PATCHLAMP_SLUG  this site's project on patchlamp.com (sends the email)
+//   env.BOOKING_KEY     signs the sign-in email's post to patchlamp.com (a Pages
+//                       secret, the same key the bookings collection signs with)
 //   env.PATCHLAMP_URL   https://patchlamp.com
 //   env.SITE_NAME       the business's name, for page titles
 //   env.TIMEZONE        how times are shown on /admin (default America/Denver)
@@ -327,19 +329,35 @@ export async function endSession(request, env) {
 // The sign-in link goes out through patchlamp.com's form endpoint, which
 // emails every field to the project's contact address. The site holds no
 // mail key; the post comes from this site's own address, as a form would.
+//
+// The post is signed (ROADMAP B201), the way the bookings collection signs its
+// own (App\Support\BookingSignature on patchlamp.com): `ts` in the body and
+// `x-booking-signature: hex(HMAC-SHA256(BOOKING_KEY, the exact body))`.
+// patchlamp.com refuses an unsigned one, because otherwise anyone could have it
+// mail the owner a genuine "Admin sign in" email carrying a link of their own.
+// So without the key nothing is sent, and the log says why (`site shell` or
+// `site data` puts the key on the site).
 export async function sendSignInLink(env, request, link) {
   const base = (env.PATCHLAMP_URL || "https://patchlamp.com").replace(/\/$/, "");
   if (!env.PATCHLAMP_SLUG) return false;
+  if (!env.BOOKING_KEY) {
+    console.error("sign-in mail: this site has no BOOKING_KEY, and patchlamp.com only sends a signed sign-in email (site shell sets the key)");
+    return false;
+  }
   const origin = env.MAIL_ORIGIN || new URL(request.url).origin;   // MAIL_ORIGIN: local testing only
   const body = new URLSearchParams({
     sign_in_link: link,
     expires: `in ${TOKEN_MINUTES} minutes, and it works once`,
     note: "Someone asked to sign in to the website's admin page. If it wasn't you, ignore this email.",
-  });
+    ts: String(now()),
+  }).toString();
   try {
     const r = await fetch(`${base}/f/${encodeURIComponent(env.PATCHLAMP_SLUG)}/admin-sign-in`, {
       method: "POST", body,
-      headers: { origin, referer: `${origin}/admin`, accept: "application/json", "content-type": "application/x-www-form-urlencoded" },
+      headers: {
+        origin, referer: `${origin}/admin`, accept: "application/json", "content-type": "application/x-www-form-urlencoded",
+        "x-booking-signature": await hmac(env.BOOKING_KEY, body),
+      },
     });
     if (!r.ok) console.error(`sign-in mail: patchlamp.com answered ${r.status}`);
     return r.ok;
