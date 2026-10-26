@@ -38,7 +38,8 @@ how to change it, and how to check a change is live.
   the published site.
 - `images/` holds the photos. `_headers` and `_redirects` are read by the host, not served: `_headers`
   makes every page `no-cache`; `_redirects` is for a page that moved. Leave both alone otherwise.
-- **No trackers, no ads, no cookie banners, no checkout.** The one count is
+- **No trackers, no ads, no cookie banners, and no checkout but the catalog's own** (a store's or a
+  restaurant's Stripe Checkout on the owner's account, on its `shop.html` or `menu.html`). The one count is
   patchlamp.com/hit.js: a page load's path and the site that linked to it,
   nothing about the visitor (no cookie, no address, no identifier), so the
   owner sees how many and from where, never who. The only

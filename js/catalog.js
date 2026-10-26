@@ -7,6 +7,14 @@
   var T = {"basket_empty": "Nothing in the basket yet.", "open_now": "Open now", "closed_now": "Closed now", "hours_soon": "Hours coming soon.", "closed": "closed", "nothing_yet": "Nothing here yet.", "failed": "This didn't load. Please try again in a minute.", "sold_out": "Sold out", "pay_off_now": "Paying online isn't switched on yet.", "went_wrong": "That didn't go through.", "reach_you": "Leave an email or a phone so we can reach you.", "pay_live": "Pay and pick up", "pay_test": "Pay (Stripe test mode — no real charge)", "pay_off": "Checkout opens once Stripe is connected", "note_live": "Payment is by Stripe Checkout.", "note_test": "This is Stripe's test mode: use card 4242 4242 4242 4242, any future date, any code. Nothing is charged.", "note_off": "Paying online isn't connected yet: fill a basket if you like, but nothing is charged and no order is taken until it is.", "try_again": "That didn't go through. Please try again.", "one_fewer": "One fewer ", "one_more": "One more "};   /* the built-in lines, in the site's language (lib/sitegen.py STRINGS) */
   var strip = document.querySelector("[data-catalog-strip]"), root = document.querySelector("[data-shop]");
   var hoursEls = document.querySelectorAll("[data-hours]");
+  var order = (location.search.match(/[?&]order=(paid|cancelled)/) || [])[1];
+  /* Stripe sends the shopper back to the home page (/?order=paid, the catalog collection's functions/api/checkout.js),
+     and the thanks or the cancelled line sits on the catalogue's own page: the home page passes the answer on there
+     (data-page on the strip names it), so a paid order never comes back to a page that says nothing */
+  if (order && !root && strip && strip.getAttribute("data-page")) {
+    location.replace(strip.getAttribute("data-page") + location.search);
+    return;
+  }
   if (!strip && !root && !hoursEls.length) return;
   var DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   function money(c) { return "$" + (c / 100).toFixed(2); }
@@ -94,10 +102,7 @@
         .catch(function () { err.textContent = T.try_again; err.hidden = false; refresh(); });
     });
   }
-  if (root) {
-    var order = (location.search.match(/[?&]order=(paid|cancelled)/) || [])[1];
-    if (order) root.querySelector('[data-order="' + order + '"]').hidden = false;
-  }
+  if (root && order) root.querySelector('[data-order="' + order + '"]').hidden = false;
   fetch("/api/catalog", { headers: { accept: "application/json" } })
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (data) {
