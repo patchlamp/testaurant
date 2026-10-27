@@ -4,41 +4,46 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Page not found — Testaurant</title>
+  <meta name="description" content="Testaurant is Patchlamp's demo restaurant: a menu with prices and hours from its own database, pickup ordering, all changed by text. Not a real restaurant.">
   <meta name="robots" content="noindex">
-  <meta name="description" content="Testaurant: page not found.">
+  <!-- The pages are rendered from site.json by `site render` (lib/sitegen.py): change site.json, never this file. -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/look.css">
+  <script src="js/motion.js" defer></script>
+  <script src="js/catalog.js" defer></script>
 </head>
-<body>
-
+<body class="page-404">
   <p class="demo-bar">
     <strong>This is a demo.</strong> Testaurant is not a real restaurant — it is
-    <a href="https://patchlamp.com/">Patchlamp's</a> restaurant demo. It resets every night.
+    <a href="https://patchlamp.com/">Patchlamp's</a> restaurant demo. Text the demo number and
+    whatever you ask for changes this site, usually in under a minute. It resets every night.
   </p>
 
   <header class="site-header">
     <a class="wordmark" href="index.html">Testaurant</a>
     <nav class="site-nav" aria-label="Site">
-      <a href="index.html">Home</a>
-      <a href="index.html#shop">Menu</a>
+      <a href="menu.html">Menu</a>
+      <a href="index.html#about">About</a>
       <a href="index.html#details">Hours</a>
     </nav>
+    <a class="header-cta" href="menu.html"><span class="cta-full">See the menu</span><span class="cta-short">See the menu</span></a>
   </header>
 
-  <main>
-    <section class="hero page-hero">
-      <h1 class="hero-title">Page not found</h1>
-      <p class="hero-tagline">That page doesn't exist. <a href="index.html">Back to the home page.</a></p>
+  <main id="top">
+    <section class="page-head" id="not-found">
+      <div class="section-inner">
+        <h1>Page not found</h1>
+        <p>That page doesn't exist. <a href="index.html">Back to the home page.</a></p>
+      </div>
     </section>
+
   </main>
 
   <footer class="site-footer">
-    <!-- Keep this footer identical on every page. -->
-    <p class="copyright">&copy; 2026 Testaurant</p>
+    <p class="copyright">&copy; 2026 Testaurant · <a href="/admin">Owner sign-in</a></p>
     <p class="patchlamp-badge"><a href="https://patchlamp.com/restaurants?from=badge" rel="noopener">Patched by Patchlamp</a></p>
     <script src="https://patchlamp.com/s/site-chat.js" data-site="testaurant" crossorigin="anonymous" defer></script>
     <script src="https://patchlamp.com/hit.js" data-site="testaurant" crossorigin="anonymous" defer></script>
   </footer>
-
-  <script src="js/main.js"></script>
 </body>
 </html>
