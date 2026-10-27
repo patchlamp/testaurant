@@ -4,7 +4,7 @@
    through /api/checkout. [data-hours]: the pickup or opening hours, and whether it is open now. The page reads the
    database as it loads, so a price, a sold-out or an hour changed on /admin or by text is on the site at once. */
 (function () {
-  var T = {"basket_empty": "Nothing in the basket yet.", "open_now": "Open now", "closed_now": "Closed now", "hours_soon": "Hours coming soon.", "closed": "closed", "nothing_yet": "Nothing here yet.", "failed": "This didn't load. Please try again in a minute.", "sold_out": "Sold out", "pay_off_now": "Paying online isn't switched on yet.", "went_wrong": "That didn't go through.", "reach_you": "Leave an email or a phone so we can reach you.", "pay_live": "Pay and pick up", "pay_test": "Pay (Stripe test mode — no real charge)", "pay_off": "Checkout opens once Stripe is connected", "note_live": "Payment is by Stripe Checkout.", "note_test": "This is Stripe's test mode: use card 4242 4242 4242 4242, any future date, any code. Nothing is charged.", "note_off": "Paying online isn't connected yet: fill a basket if you like, but nothing is charged and no order is taken until it is.", "try_again": "That didn't go through. Please try again.", "one_fewer": "One fewer ", "one_more": "One more "};   /* the built-in lines, in the site's language (lib/sitegen.py STRINGS) */
+  var T = {"basket_empty": "Nothing in the basket yet.", "open_now": "Open now", "closed_now": "Closed now", "hours_soon": "Hours coming soon.", "closed": "closed", "nothing_yet": "Nothing here yet.", "failed": "This didn't load. Please try again in a minute.", "sold_out": "Sold out", "pay_off_now": "Paying online isn't switched on yet.", "went_wrong": "That didn't go through.", "reach_you": "Leave an email or a phone so we can reach you.", "pay_live": "Pay and pick up", "pay_test": "Pay (Stripe test mode — no real charge)", "pay_off": "Checkout opens once Stripe is connected", "note_live": "Payment is by Stripe Checkout.", "note_test": "This is Stripe's test mode: use card 4242 4242 4242 4242, any future date, any code. Nothing is charged.", "note_off": "Paying online isn't connected yet: fill a basket if you like, but nothing is charged and no order is taken until it is.", "try_again": "That didn't go through. Please try again.", "one_fewer": "One fewer ", "one_more": "One more ", "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]};   /* the built-in lines, in the site's language (lib/sitegen.py STRINGS) */
   var strip = document.querySelector("[data-catalog-strip]"), root = document.querySelector("[data-shop]");
   var hoursEls = document.querySelectorAll("[data-hours]");
   var order = (location.search.match(/[?&]order=(paid|cancelled)/) || [])[1];
@@ -16,7 +16,7 @@
     return;
   }
   if (!strip && !root && !hoursEls.length) return;
-  var DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  var DAYS = T.days;      /* the site's language's day names (sitegen.UI_STRINGS catalog.days), Sunday first */
   function money(c) { return "$" + (c / 100).toFixed(2); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function clock(t) { var p = t.split(":"), h = +p[0], m = p[1]; return (h % 12 || 12) + (m === "00" ? "" : ":" + m) + (h < 12 ? "am" : "pm"); }
